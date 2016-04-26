@@ -1,0 +1,51 @@
+###################
+# Initial build image
+
+FROM golang:1.6
+
+ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+
+MOUNT .:/go/src/github.com/kalbasit/transmission-torrent-cleaner
+WORKDIR /go/src/github.com/kalbasit/transmission-torrent-cleaner
+
+RUN go install
+
+###################
+# Copy scripts and bins
+
+RUN mkdir -p /dist/usr/bin \
+  && cp /go/bin/transmission-torrent-cleaner /dist/usr/bin/transmission-torrent-cleaner
+
+EXPORT /dist /
+
+###################
+# Final build image
+
+FROM scratch
+IMPORT /dist/ /
+CMD ["/usr/bin/transmission-torrent-cleaner"]
+
+###################
+# Push the image
+
+{{ if .TAG }}
+  PUSH kalbasit/transmission-torrent-cleaner:{{ .TAG }}
+{{ else }}
+  {{ if .BRANCH }}
+    {{ if ne .BRANCH "master" }}
+      PUSH kalbasit/transmission-torrent-cleaner:{{ .BRANCH }}
+    {{ else }}
+      PUSH kalbasit/transmission-torrent-cleaner:latest
+    {{ end }}
+  {{ else }}
+    PUSH kalbasit/transmission-torrent-cleaner:latest
+  {{ end }}
+{{ end }}
+
+{{ if .TRAVIS_BUILD_NUMBER }}
+  PUSH kalbasit/transmission-torrent-cleaner:travis-{{ .TRAVIS_BUILD_NUMBER }}
+{{ end }}
+
+{{ if .COMMIT }}
+  PUSH kalbasit/transmission-torrent-cleaner:{{ .COMMIT }}
+{{ end }}

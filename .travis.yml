@@ -1,0 +1,26 @@
+sudo: required
+language: go
+go:
+  - 1.6
+  - tip
+matrix:
+  allow_failures:
+    - go: tip
+services:
+  - docker
+env:
+  global:
+    # DOCKER_USER
+    - secure: "ZrhwERzPl8VSJx5fMXK28fiWe+OdLaAblj655yBpqHzhmbw7GCPoUPtewMzv0rNS1r4r+ZMwWfQxE51+MqHtmiizEnpW0eE/1Umuosjk4GSYjiXTVTkBWrzVIhtD57XEvvYjsCRNum0mCDOcrKfoZZmCYFlBHpKQyqOHNTmpkOzIZ0h/ubiNeFar8XIBv0wmSlKoAQ8r7owN5Z0HbRLNIpFvgzRzPRosbYKYO9kRK6EmdaWd7dMqCWuFcYULHbnDswzjwkNjrLHjDNAzY3fWVFbNTvHZSMMAXus3OR9HqGdqmQou8gG3xGRTVlm2A7sLSL7NCs1dmbmJUuDtn9I1AwKW2ZkA4yRSVUENaflXNA6ddJtng1OU7zEE8A15+oKAC/7FPMOKTb+7PBo3xaWpF7ZDWzZ5tbNnnEd+WBS0TOXOD+jEGNk5O3NLNaM1f1WOAtLyTGDQQSqP+/qbKq9dEpizdZY2a9Qp5deiZ3K+KbwX4BopAJjxmoK3biJHFmrC8Hz7F4HR1qhqorkZzqwlSo+eEMjXe1pHs+MWPvuRSNZdUPSlmZ0ZHjl1iGsGsmD16eo4i6CFnSzGN6gBIPsnKIhrKERFsej8+a1NfflGbbkmoLuSuqhWVZnhOS9X3WhcOeCPBdx2T/dUTfM/dcxOmuxFvUXeOXTFEovQZzB02wU="
+    # DOCKER_PASS
+    - secure: "st0K/d7VY8EZYzvmk0EubbiEEShvNQdm1dZ6m45kwXkBiTRB0QS/dV98Sp6SPN4jSIE1TqRUw53rCgVq7nPOgLr8b7dzQB8zxgoFRa8Dz4iZV+V0LY6q34CZ2fKpxFl6GMG+sgSFXPIDf7jFStuA1l5HLanZC6wqebGoCbos5wwTi+LYlSy9M3hofZrI9IQpRswZ4uxTDAaleGYDOWxPiS8g6j+xWFzN4/TEkZ3oc7oMV1YqBMQzExnzJ9KHsnai92GKdo2kuaJd1+shyTS48JWlCF9LHZLbyLTGTG5EmFT75hcL4hhG7jTqPwac/Owiq+btkq13HThVAdV1husVTiAkvpw+kQfIEQVSFl3C1KUNUFmg2h6AN8VpLOwPTcTSpTz4kPLolxQzonR9OfzZH1l3mdZcBb8aawV9oku2qGjtuMkziLxancKb4AEyrKU4td5K43g/frFvrxuLwBgFqJBQmVGiuvB5ctXnRdpUCs7XDBHedunChZLlbokBES5ILuTn8OqJcTHcYzMAwd/FIhuRA2Rp5GISFHGN7IvJtncIqBGAgijPzSL3DTX6ew8l1/91ifKLLGl8drtiMOSDeabcU5NbPhGMKq/lYfAoxP0PP4i8lDGfnsBNt7PO9BQygK6iFzoVH0zHM3XYpC1lTZZ7WtbraCl6oqeoh7mg2Iw="
+before_script:
+  - go get -u golang.org/x/tools/cmd/cover
+script: go test -v -race -cover -bench=. $(go list ./... | grep -v /vendor/)
+deploy:
+  - provider: script
+    script: scripts/build-docker-image.sh
+    on:
+      all_branches: true
+      go: 1.6
+      repo: kalbasit/transmission-torrent-cleaner

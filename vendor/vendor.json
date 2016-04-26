@@ -1,0 +1,36 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"path": "github.com/odwrtw/transmission",
+			"revision": "6be612b17372b7600e249ed3bb5ef27a16a62e86",
+			"revisionTime": "2015-07-24T16:11:33+02:00"
+		},
+		{
+			"path": "github.com/rs/xhandler",
+			"revision": "d9d9599b6aaf6a058cb7b1f48291ded2cbd13390",
+			"revisionTime": "2015-12-23T17:29:56-08:00"
+		},
+		{
+			"path": "github.com/rs/xid",
+			"revision": "057f3c928c207d1e7e318929eeac93bb46e319e3",
+			"revisionTime": "2016-03-15T15:06:58+01:00"
+		},
+		{
+			"path": "github.com/rs/xlog",
+			"revision": "0c59c0258eea745e63f48731afe256ba0f7bff26",
+			"revisionTime": "2016-04-18T19:34:29-07:00"
+		},
+		{
+			"path": "github.com/rs/xlog/internal/term",
+			"revision": "0c59c0258eea745e63f48731afe256ba0f7bff26",
+			"revisionTime": "2016-04-18T19:34:29-07:00"
+		},
+		{
+			"path": "golang.org/x/net/context",
+			"revision": "b797637b7aeeed133049c7281bfa31dcc9ca42d6",
+			"revisionTime": "2016-04-23T08:19:27+10:00"
+		}
+	]
+}
