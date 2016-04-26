@@ -24,6 +24,11 @@ $ docker run -d kalbasit/transmission-torrent-cleaner \
   -ignore-template '{{ if eq .DownloadDir "/nas/Downloads" }}true{{ end }}'
 ```
 
+## Credits
+
+This work is inspired by Albert's [excellent transmission docker
+image](https://github.com/albertrdixon/docker-transmission/blob/ad71c8dd417572c73455e42876469442f0bf9c76/scripts/torrent_cleaner.py)
+
 ## Licenses
 
 All source code is licensed under the [MIT License](https://raw.github.com/kalbasit/transmission-torrent-cleaner/master/LICENSE).
