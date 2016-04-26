@@ -21,7 +21,8 @@ $ docker run -d kalbasit/transmission-torrent-cleaner \
   -transmission-url="http://192.168.1.105:9091/transmission/rpc" \
   -remove-finished \
   -remove-stalled \
-  -ignore-template '{{ if eq .DownloadDir "/nas/Downloads" }}true{{ end }}'i
+  -ignore-template '{{ if eq .DownloadDir "/nas/Downloads" }}true{{ end }}' \
+  kalbasit/transmission-torrent-cleaner
 ```
 
 ## Licenses
