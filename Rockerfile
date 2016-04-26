@@ -23,7 +23,7 @@ EXPORT /dist /
 
 FROM scratch
 IMPORT /dist/ /
-CMD ["/usr/bin/transmission-torrent-cleaner"]
+ENTRYPOINT ["/usr/bin/transmission-torrent-cleaner"]
 
 ###################
 # Push the image
