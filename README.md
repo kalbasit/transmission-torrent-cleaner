@@ -3,25 +3,31 @@
 It's a simple Go program that monitors your transmission and can
 optionally remove finished or stalled torrents.
 
-You can optionally skip a torrent from the removal by passing the
-a text/template. The template will receive the
+For a greater control, you may pass a text/template as `remove-template`
+flag. The template will receive the
 [torrent](https://github.com/odwrtw/transmission/blob/3b39d734964d4b2b61267979feb8b5d0a2dc9a23/torrent.go#L123-L193)
-as data and must result in `true` if the torrent must be skipped.
-Everything else is considered as `do not skip`.
+as data and must result in `true` if the torrent must be removed.
 
 ## Example
 
 The following monitors a tranmission running on 192.168.1.105 port 9091
-and removes stalled and finished torrents unless the
-[DownloadDir](https://github.com/odwrtw/transmission/blob/3b39d734964d4b2b61267979feb8b5d0a2dc9a23/torrent.go#L134)
-is set to `/nas/Downloads`.
+and removes stalled and finished torrents.
 
 ```shell
 $ docker run -d kalbasit/transmission-torrent-cleaner \
   -transmission-url="http://192.168.1.105:9091/transmission/rpc" \
   -remove-finished \
   -remove-stalled \
-  -ignore-template '{{ if eq .DownloadDir "/nas/Downloads" }}true{{ end }}'
+```
+
+The following monitors a tranmission running on 192.168.1.105 port 9091
+and removes torrents only if the template has evaluated to true.
+
+```shell
+$ curl -Lo /tmp/download-dir.template https://raw.githubusercontent.com/kalbasit/transmission-torrent-cleaner/master/examples/download-dir.template
+$ docker run -d kalbasit/transmission-torrent-cleaner \
+  -transmission-url="http://192.168.1.105:9091/transmission/rpc" \
+  -remove-template=/tmp/download-dir.template
 ```
 
 ## Credits

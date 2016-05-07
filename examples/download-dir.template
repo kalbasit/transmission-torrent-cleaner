@@ -1,0 +1,9 @@
+{{- if eq .DownloadDir "/nas/Downloads" -}}
+  {{- if .IsFinished -}}
+    {{- print "true" -}}
+  {{- end -}}
+{{- else -}}
+  {{- if or .IsFinished .IsStalled -}}
+    {{- print "true" -}}
+  {{- end -}}
+{{- end -}}
