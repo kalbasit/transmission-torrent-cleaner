@@ -92,13 +92,13 @@ func cycle() {
 		}
 		// has this torrent been marked as finished for *cycles?
 		if tstrikes[t.ID]["finished"] >= *cycles && (*removeFinished || removeTemplateTrue(t)) {
-			l.Infof("The torrent %s has been finished for %d cycles and will be removed", t.Name, tstrikes[t.ID]["finished"])
-			tconn.RemoveTorrents([]*transmission.Torrent{t}, false)
+			l.Infof("The torrent %s has been finished for %d cycles and will be removed. Data removed: %t", t.Name, tstrikes[t.ID]["finished"], t.LeftUntilDone > 0)
+			tconn.RemoveTorrents([]*transmission.Torrent{t}, t.LeftUntilDone > 0)
 		}
 		// has this torrent been marked as stalled for *cycles?
 		if tstrikes[t.ID]["stalled"] >= *cycles && (*removeStalled || removeTemplateTrue(t)) {
-			l.Infof("The torrent %s has been stalled for %d cycles and will be removed", t.Name, tstrikes[t.ID]["stalled"])
-			tconn.RemoveTorrents([]*transmission.Torrent{t}, true)
+			l.Infof("The torrent %s has been stalled for %d cycles and will be removed. Data removed: %t", t.Name, tstrikes[t.ID]["stalled"], t.LeftUntilDone > 0)
+			tconn.RemoveTorrents([]*transmission.Torrent{t}, t.LeftUntilDone > 0)
 		}
 	}
 
